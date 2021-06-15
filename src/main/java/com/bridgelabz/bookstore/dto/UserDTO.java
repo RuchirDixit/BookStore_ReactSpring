@@ -1,6 +1,8 @@
 package com.bridgelabz.bookstore.dto;
 
 import java.io.File;
+import java.time.LocalDateTime;
+import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotBlank;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
@@ -23,4 +25,9 @@ public @Data class UserDTO {
 	
 	@NotBlank(message = "Password cannot be blank")
 	private String password;
+	
+	
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@FutureOrPresent(message = "Start Date should be future or present.")
+	private LocalDateTime expiryDate;
 }
