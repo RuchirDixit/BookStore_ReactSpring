@@ -144,4 +144,64 @@ public class BookService implements IBookService {
 		}
 	}
 
+	/**
+	 * To update book quantity
+	 * @param token : JWT to verify user, bookName : Book name to update, newQuantity: updated book quantity
+	 * @return Response
+	 */
+	@Override
+	public Response updateBookQuantity(String token, String bookName,int newQuantity) {
+		// check if user is present
+		long id = tokenUtil.decodeToken(token);
+		Optional<UserEntity> isUserPresent = userRepository.findById(id);
+		if(isUserPresent.isPresent()) {
+			// check if book present
+			Optional<BookEntity> isBookPresent = bookRepository.findByBookName(bookName);
+			if(isBookPresent.isPresent()) {
+				isBookPresent.get().setQuantity(newQuantity);
+				bookRepository.save(isBookPresent.get());
+				log.debug("Quantity updated.");
+				return new Response(200, "Book quantity updated.", null);
+			}
+			else {
+				log.error("Book not found.");
+				throw new BookStoreException(404,"Book Not found");
+			}
+		}
+		else {
+			log.error("User not found.");
+			throw new BookStoreException(404,"User Not found");
+		}
+	}
+
+	/**
+	 * To update book price
+	 * @param token : JWT to verify user, bookName : Book name to update, price: updated book price
+	 * @return Response
+	 */
+	@Override
+	public Response updateBookPrice(String token, String bookName, Double price) {
+		// check if user is present
+				long id = tokenUtil.decodeToken(token);
+				Optional<UserEntity> isUserPresent = userRepository.findById(id);
+				if(isUserPresent.isPresent()) {
+					// check if book present
+					Optional<BookEntity> isBookPresent = bookRepository.findByBookName(bookName);
+					if(isBookPresent.isPresent()) {
+						isBookPresent.get().setPrice(price);
+						bookRepository.save(isBookPresent.get());
+						log.debug("Price updated.");
+						return new Response(200, "Book price updated.", null);
+					}
+					else {
+						log.error("Book not found.");
+						throw new BookStoreException(404,"Book Not found");
+					}
+				}
+				else {
+					log.error("User not found.");
+					throw new BookStoreException(404,"User Not found");
+				}
+	}
+
 }

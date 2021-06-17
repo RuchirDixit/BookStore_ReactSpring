@@ -20,4 +20,10 @@ public interface IBookService {
 	// To delete user
 	Response deleteBook(String token, String bookName);
 
+	// To update book quantity
+	Response updateBookQuantity(String token, String bookName,int newQuantity);
+
+	// To update book price
+	Response updateBookPrice(String token, String bookName, Double price);
+
 }
