@@ -68,6 +68,36 @@ public class BookController {
 	}
 	
 	/**
+	 * Update book quantity
+	 * @param token : JWT to authorize user
+	 * @param bookName : Book name to update
+	 * @param quantity : Book quantity to update
+	 * @return ResponseEntity<Response>
+	 */
+	@PutMapping("/updateBookQuantity/{token}")
+	public ResponseEntity<Response> updateBookQuantity(@PathVariable String token,@RequestParam("bookName") String bookName,
+			@RequestParam("quantity") int quantity){
+		log.debug("Update book quantity");
+		Response response = bookService.updateBookQuantity(token,bookName,quantity);
+		return new ResponseEntity<Response>(response, HttpStatus.OK);
+	}
+	
+	/**
+	 * Update book price
+	 * @param token : JWT to authorize user
+	 * @param bookName : Book name to update
+	 * @param price : Book price to update
+	 * @return ResponseEntity<Response>
+	 */
+	@PutMapping("/updateBookPrice/{token}")
+	public ResponseEntity<Response> updateBookPrice(@PathVariable String token,@RequestParam("bookName") String bookName,
+			@RequestParam("quantity") Double price){
+		log.debug("Update book price");
+		Response response = bookService.updateBookPrice(token,bookName,price);
+		return new ResponseEntity<Response>(response, HttpStatus.OK);
+	}
+	
+	/**
 	 * Delete book
 	 * @param token : JWT to authorize user
 	 * @return ResponseEntity<Response>
