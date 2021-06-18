@@ -158,7 +158,7 @@ public class BookService implements IBookService {
 			// check if book present
 			Optional<BookEntity> isBookPresent = bookRepository.findByBookName(bookName);
 			if(isBookPresent.isPresent()) {
-				isBookPresent.get().setQuantity(newQuantity);
+				isBookPresent.get().setQuantity(isBookPresent.get().getQuantity()+newQuantity);
 				bookRepository.save(isBookPresent.get());
 				log.debug("Quantity updated.");
 				return new Response(200, "Book quantity updated.", null);

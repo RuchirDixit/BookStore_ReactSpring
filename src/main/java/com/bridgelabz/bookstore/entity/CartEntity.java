@@ -19,13 +19,9 @@ public @Data class CartEntity {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 	
-	@Column
-	@ElementCollection
-	private List<UserEntity> user;
+	private long userId;
 	
-	@Column
-	@ElementCollection
-	private List<BookEntity> books;
+	private long bookId;
 	
 	private int quantity;
 	
