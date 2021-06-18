@@ -57,7 +57,7 @@ public class UserService implements IUserService {
 			String token = tokenUtil.createToken(userEntity.getId());
 			try {
 				// Send email to user for verification
-				emailService.sendmail(dto.getEmailId(),"User Verification","Please click on the below link to verify : \n http://"+host+":"+port+"/user/verify/"+token);
+				emailService.sendmail(dto.getEmailId(),"User Verification","Before logging in, Please click on the given link to verify : \n http://"+host+":"+port+"/user/verify/"+token);
 			} catch (MessagingException | IOException e) {
 				e.printStackTrace();
 			}
@@ -203,6 +203,56 @@ public class UserService implements IUserService {
 				log.error("Incorrect otp.");
 				return new Response(400, "Incorrect Otp. Please enter correct otp.", null);
 			}
+		}
+		else {
+			log.error("User not found");
+			throw new BookStoreException(404,"User not found");
+		}
+	}
+
+	/**
+	 * To login user using email id and password if verified
+	 * @param token : JWT to get userid
+	 * @param emailId : user's email id
+	 * @param password : user's password
+	 * @return Response
+	 */
+	@Override
+	public Response userLogin(String token, String emailId, String password) {
+		long id = tokenUtil.decodeToken(token);
+		Optional<UserEntity> isUserPresent = userRegistrationRepository.findById(id);
+		if(isUserPresent.isPresent()) {
+			String userEmail = isUserPresent.get().getEmailId();
+			String userPassword = isUserPresent.get().getPassword();
+			if(userEmail.equals(emailId) && userPassword.equals(userPassword) && isUserPresent.get().isVerify() == true) {
+				log.debug("User logged in.");
+				return new Response(200, "User logged in successfully.", token);
+			}
+			else {
+				log.error("Incorrect credentials");
+				return new Response(403, "Incorrect credentials. Enter valid details.", null);
+			}
+		}
+		else {
+			log.error("User not found");
+			throw new BookStoreException(404,"User not found");
+		}
+	}
+
+	@Override
+	public Response forgotPassword(String emailId, String newPassword) {
+		Optional<UserEntity> isUserPresent = userRegistrationRepository.findByEmailId(emailId);
+		if(isUserPresent.isPresent()) {
+			isUserPresent.get().setPassword(newPassword);
+			userRegistrationRepository.save(isUserPresent.get());
+			log.debug("Password reset.");
+			try {
+				emailService.sendmail(emailId,"Password reset","Your password has been reset. If it was not you please contact admin immediately.");
+			} catch (MessagingException | IOException e) {
+				log.error("Mail sending error.");
+				e.printStackTrace();
+			}
+			return new Response(200, "Password reset successful.", null);
 		}
 		else {
 			log.error("User not found");

@@ -30,4 +30,10 @@ public interface IUserService {
 
 		// Verify use using OTP
 		Response verifyOTP(String token, long otp);
+
+		// User login with verification
+		Response userLogin(String token, String emailId, String password);
+
+		// To reset password
+		Response forgotPassword(String emailId, String newPassword);
 }
