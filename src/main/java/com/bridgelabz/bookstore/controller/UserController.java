@@ -21,6 +21,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bridgelabz.bookstore.dto.UserDTO;
 import com.bridgelabz.bookstore.service.IUserService;
 import com.bridgelabz.bookstore.util.Response;
+
+import io.swagger.annotations.ApiOperation;
+
 import com.bridgelabz.bookstore.entity.UserEntity;
 
 import lombok.extern.slf4j.Slf4j;
@@ -93,6 +96,16 @@ public class UserController {
 		return new ResponseEntity<Response>(userEntity,HttpStatus.OK);
 	}
 	
+	
+	@ApiOperation(value = "Login Api to take username and password and check if its valid")
+	@GetMapping("/login/{token}")
+	public ResponseEntity<Response> userLogin(@PathVariable String token,@RequestParam("email") String emailId,
+			@RequestParam("password") String password){
+		log.debug("User Login.");
+		Response userEntity = userService.userLogin(token,emailId,password);
+		return new ResponseEntity<Response>(userEntity,HttpStatus.OK);
+	}
+	
 	/**
 	 * To update user details
 	 * @param token : To authorize user
@@ -103,6 +116,15 @@ public class UserController {
 	public ResponseEntity<Response> updateUser(@PathVariable String token,@RequestBody UserDTO dto){
 		log.debug("Update user");
 		Response userEntity = userService.updateUser(token,dto);
+		return new ResponseEntity<Response>(userEntity,HttpStatus.OK);
+	}
+	
+	@ApiOperation(value = "Forgot password api to set new password")
+	@PutMapping("/forgotPassword")
+	public ResponseEntity<Response> forgotPassword(@RequestParam("emailId") String emailId,
+			@RequestParam("newPassword") String newPassword){
+		log.debug("Forgot password api");
+		Response userEntity = userService.forgotPassword(emailId,newPassword);
 		return new ResponseEntity<Response>(userEntity,HttpStatus.OK);
 	}
 	
