@@ -239,6 +239,12 @@ public class UserService implements IUserService {
 		}
 	}
 
+	/**
+	 * To reset password when forgot
+	 * @param emailId : user's email id
+	 * @param newPassword : user's new password
+	 * @return Response
+	 */
 	@Override
 	public Response forgotPassword(String emailId, String newPassword) {
 		Optional<UserEntity> isUserPresent = userRegistrationRepository.findByEmailId(emailId);
