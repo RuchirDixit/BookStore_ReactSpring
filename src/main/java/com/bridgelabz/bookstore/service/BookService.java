@@ -82,6 +82,26 @@ public class BookService implements IBookService {
 	}
 
 	/**
+	 * Get specific book by Id
+	 * @param token : To verfiy user
+	 * @param bookId : Id to find book
+	 * @return BookEntity
+	 */
+	@Override
+	public BookEntity getBookById(String token, long bookId) {
+		long id = tokenUtil.decodeToken(token);
+		Optional<UserEntity> isUserPresent = userRepository.findById(id);
+		if(isUserPresent.isPresent()) {
+			BookEntity book = bookRepository.findById(bookId).get();
+			return book;
+		}
+		else {
+			log.error("User not found.");
+			throw new BookStoreException(404,"User Not found");
+		}
+	}
+	
+	/**
 	 * To update book data
 	 * @param token : JWT to verify user, bookDto : Book details
 	 * @return Response

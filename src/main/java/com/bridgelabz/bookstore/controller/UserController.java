@@ -98,11 +98,11 @@ public class UserController {
 	
 	
 	@ApiOperation(value = "Login Api to take username and password and check if its valid")
-	@GetMapping("/login/{token}")
-	public ResponseEntity<Response> userLogin(@PathVariable String token,@RequestParam("email") String emailId,
+	@GetMapping("/login")
+	public ResponseEntity<Response> userLogin(@RequestParam("email") String emailId,
 			@RequestParam("password") String password){
 		log.debug("User Login.");
-		Response userEntity = userService.userLogin(token,emailId,password);
+		Response userEntity = userService.userLogin(emailId,password);
 		return new ResponseEntity<Response>(userEntity,HttpStatus.OK);
 	}
 	

@@ -29,7 +29,7 @@ public @Data class BookEntity {
 	private String description;
 	
 	@Column(name = "bookLogo")
-	private File logo;
+	private String logo;
 	
 	@Column(name = "bookPrice")
 	private double price;

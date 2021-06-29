@@ -23,14 +23,14 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("cart")
 @Slf4j
 public class CartController {
-
+	
 	@Autowired
 	ICartService cartService;
 	
 	@ApiOperation(value = "To add item to cart on with Book id and quantity from user")
 	@PostMapping("/addToCart/{token}")
 	public ResponseEntity<Response> addBookToCart(@PathVariable String token,@RequestBody CartDTO cartDto) {
-		log.debug("Add prod to cart");
+		log.info("Cart dto: " + cartDto);
 		Response response = cartService.addToCart(token,cartDto);
 		return new ResponseEntity<Response>(response, HttpStatus.OK);
 	}

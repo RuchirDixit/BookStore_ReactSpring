@@ -32,7 +32,7 @@ public interface IUserService {
 		Response verifyOTP(String token, long otp);
 
 		// User login with verification
-		Response userLogin(String token, String emailId, String password);
+		Response userLogin(String emailId, String password);
 
 		// To reset password
 		Response forgotPassword(String emailId, String newPassword);

@@ -49,12 +49,12 @@ public class CartService implements ICartService {
 		long id = tokenUtil.decodeToken(token);
 		Optional<UserEntity> isUserPresent = userRegistrationRepository.findById(id);
 		if(isUserPresent.isPresent()) {
+			log.info("Book Id Passed: " + cartDTO.getBookId());
 			Optional<BookEntity> isBookPresent = bookRepository.findById(cartDTO.getBookId());
 			if(isBookPresent.isPresent()) {
 				CartEntity cartEntity = modelMapper.map(cartDTO, CartEntity.class);
 				cartEntity.setBookId(cartDTO.getBookId());
 				cartEntity.setUserId(isUserPresent.get().getId());
-				cartEntity.setQuantity(cartDTO.getQuantity());
 				cartRepository.save(cartEntity);
 				return new Response(200, "Book with id:" + cartDTO.getBookId() + " Added to cart.", null);
 				
@@ -112,7 +112,7 @@ public class CartService implements ICartService {
 			if(isBookPresent.isPresent()) {
 				Optional<CartEntity> isCartItemPresent = cartRepository.findByBookId(cartDto.getBookId());
 				if(isCartItemPresent.isPresent()) {
-					isCartItemPresent.get().setQuantity(cartDto.getQuantity());
+					isCartItemPresent.get().setQuantity(0);
 					cartRepository.save(isCartItemPresent.get());
 					log.debug("Update item in cart.");
 					return new Response(200, "Cart updated.", null);

@@ -26,4 +26,7 @@ public interface IBookService {
 	// To update book price
 	Response updateBookPrice(String token, String bookName, Double price);
 
+	// Get Book by Id
+	BookEntity getBookById(String token, long bookId);
+
 }

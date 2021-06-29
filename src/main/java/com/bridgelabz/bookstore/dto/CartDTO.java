@@ -5,6 +5,4 @@ import lombok.Data;
 public @Data class CartDTO {
 
 	private long bookId;
-	
-	private int quantity;
 }

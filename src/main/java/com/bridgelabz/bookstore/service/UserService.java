@@ -218,14 +218,14 @@ public class UserService implements IUserService {
 	 * @return Response
 	 */
 	@Override
-	public Response userLogin(String token, String emailId, String password) {
-		long id = tokenUtil.decodeToken(token);
-		Optional<UserEntity> isUserPresent = userRegistrationRepository.findById(id);
+	public Response userLogin(String emailId, String password) {
+		Optional<UserEntity> isUserPresent = userRegistrationRepository.findByEmailId(emailId);
 		if(isUserPresent.isPresent()) {
 			String userEmail = isUserPresent.get().getEmailId();
 			String userPassword = isUserPresent.get().getPassword();
-			if(userEmail.equals(emailId) && userPassword.equals(userPassword) && isUserPresent.get().isVerify() == true) {
+			if(userEmail.equals(emailId) && userPassword.equals(userPassword)) {
 				log.debug("User logged in.");
+				String token = tokenUtil.createToken(isUserPresent.get().getId());
 				return new Response(200, "User logged in successfully.", token);
 			}
 			else {

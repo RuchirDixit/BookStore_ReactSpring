@@ -14,7 +14,7 @@ public @Data class BookDTO {
 	
 	private String description;
 	
-	private File logo;
+	private String logo;
 	
 	private double price;
 	

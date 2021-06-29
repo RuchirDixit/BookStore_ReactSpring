@@ -55,6 +55,18 @@ public class BookController {
 	}
 	
 	/**
+	 * To get all books
+	 * @param token : JWT to authorize user
+	 * @return ResponseEntity<List<?>>
+	 */
+	@GetMapping("/getBookById/{token}/{bookId}")
+	public ResponseEntity<BookEntity> getBookById(@PathVariable String token,@PathVariable long bookId){
+		log.debug("Get all books");
+		BookEntity books = bookService.getBookById(token,bookId);
+		return new ResponseEntity<BookEntity>(books, HttpStatus.OK);	
+	}
+	
+	/**
 	 * Update book details
 	 * @param bookDto : Book details to update
 	 * @param token : JWT to authorize user
