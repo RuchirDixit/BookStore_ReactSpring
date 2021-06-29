@@ -9,4 +9,6 @@ import com.bridgelabz.bookstore.entity.CartEntity;
 public interface CartRepository extends JpaRepository<CartEntity, Long> {
 
 	Optional<CartEntity> findByBookId(long bookId);
+	
+	CartEntity findByUserId(long userId);
 }

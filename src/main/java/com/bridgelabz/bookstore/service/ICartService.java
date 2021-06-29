@@ -1,6 +1,7 @@
 package com.bridgelabz.bookstore.service;
 
 import com.bridgelabz.bookstore.dto.CartDTO;
+import com.bridgelabz.bookstore.entity.CartEntity;
 import com.bridgelabz.bookstore.util.Response;
 
 public interface ICartService {
@@ -13,5 +14,8 @@ public interface ICartService {
 
 	// to update item's quantity in cart
 	Response updateCartItem(String token, CartDTO cartDto);
+
+	// to get user's cart items
+	CartEntity getCartItemForUser(String token);
 
 }

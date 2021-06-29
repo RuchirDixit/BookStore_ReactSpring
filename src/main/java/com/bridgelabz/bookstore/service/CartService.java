@@ -134,4 +134,23 @@ public class CartService implements ICartService {
 		}
 	}
 
+	/**
+	 * get cart items list for user
+	 * @param token : Jwt to verify user
+	 * @return CartEntity
+	 */
+	@Override
+	public CartEntity getCartItemForUser(String token) {
+		long id = tokenUtil.decodeToken(token);
+		Optional<UserEntity> isUserPresent = userRegistrationRepository.findById(id);
+		if(isUserPresent.isPresent()) {
+			CartEntity userCart =  cartRepository.findByUserId(isUserPresent.get().getId());
+			return userCart;
+		}
+		else {
+			log.error("User not found");
+			throw new BookStoreException(404, "User not found");
+		}
+	}
+
 }
